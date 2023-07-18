@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, ScrollView } from "react-native"
+import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity } from "react-native"
 import { useRouter } from "expo-router"
 import { useState, useEffect } from "react"
 import CardPokemon from "../components/CardPokemon"
@@ -6,22 +6,43 @@ import CardPokemon from "../components/CardPokemon"
 
 const landing = () => {
     const [urls, setUrls] = useState()
+    
+    const [ pages, setPages ] = useState({
+        next: '',
+        previous: null
+    })
+    const [offSet, setOffSet] = useState(0)
+    
+
     const router = useRouter()
-    const urlsContainer = []
+    
 
     const getUrls = async () => {
-        const urlsPokemons = await fetch('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20')
+        const urlsPokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offSet}&limit=20`)
             .then(response => response.json())
-            .then(res => setUrls(res.results))
+            .then(res => {
+                setUrls(res.results)
+                setPages({next: res.next, previous: res.previous})
+                console.log(res)
+            })
 
+    }
+
+    const prevButton = () => {
+        setOffSet(offSet - 20)
+        getUrls()
+    }
+    const nextButton = () => {
+        setOffSet(offSet + 20)
+        getUrls()
     }
 
 
     useEffect(() => {
         getUrls()
-    }, [])
+    }, [offSet])
 
-
+    console.log('aca offset: ',offSet)    
 
 
     return (
@@ -30,10 +51,32 @@ const landing = () => {
                 <Text style={styles.tittle}>Pokemons</Text>
             </View>
 
+            <View style={styles.containerButtons}>
+                {pages.previous !== null ?
+                <TouchableOpacity style={styles.buttonPages} onPress={prevButton}>
+                    <Text style={{color: 'white'}}>Prev</Text>
+                </TouchableOpacity>
+                : 
+                <TouchableOpacity style={styles.buttonPagesDisable} disabled={true}>
+                    <Text style={{color: '#707070'}}>Prev</Text>
+                </TouchableOpacity>}
 
+                {pages.next !== null ?
+                <TouchableOpacity style={styles.buttonPages} onPress={nextButton}>
+                    <Text style={{color: 'white'}}>Next</Text>
+                </TouchableOpacity>
+                : 
+                <TouchableOpacity style={styles.buttonPagesDisable} disabled={true}>
+                    <Text style={{color: '#707070'}}>Prev</Text>
+                </TouchableOpacity>}
+            </View>
             <ScrollView>
-                <Text style={styles.containerAllPokemon}>{urls ? urls.map(e =>
-                    <CardPokemon key={e.name} name={e.name} url={e.url} />) : ''}</Text>
+                <Text style={styles.containerAllPokemon}>
+                    {urls ? 
+                    urls.map(e =>
+                    <CardPokemon key={e.name} name={e.name} url={e.url} />
+                    ) : ''}
+                </Text>
             </ScrollView>
 
             <Button onPress={() => router.back()} title='Go back' ></Button>
@@ -72,5 +115,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center'
     },
+    containerButtons: {
+        flex: 1,
+        flexWrap: 'wrap',
+        alignItems: 'center'
+    },
+    buttonPages: {
+        alignItems: 'center',
+        justifyContent: 'center',   
+        backgroundColor: '#232423',
+        width: 60,
+        height: 30
+    },
+    buttonPagesDisable:{
+        alignItems: 'center',
+        justifyContent: 'center',   
+        backgroundColor: '#4f4f4f',
+        width: 60, 
+        height: 30
+    }
 
 }) 

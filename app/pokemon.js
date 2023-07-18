@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "expo-router"
+import { Link, useLocalSearchParams } from "expo-router"
 import { useState, useEffect } from "react"
 import { View,Image,  Text, StyleSheet, ActivityIndicator } from "react-native"
 
@@ -7,22 +7,18 @@ import { View,Image,  Text, StyleSheet, ActivityIndicator } from "react-native"
 const pokemon = () => {
 
     const [poke, setPoke] = useState([])
+    const { name } = useLocalSearchParams();
 
-    const params = useSearchParams()
-
-
-
-
-    const getPokemonByName = async (props) => {
-        const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${props}`)
+    const getPokemonByName = async () => {
+        const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
             .then(response => response.json())
             .then(res => setPoke(res))
     }
 
     useEffect(() => {
-        getPokemonByName(params.name)
+        getPokemonByName()
 
-    }, [])
+    }, [name])
 
     console.log(poke)
 
