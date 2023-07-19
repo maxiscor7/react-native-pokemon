@@ -13,6 +13,7 @@ const landing = () => {
     })
     const [offSet, setOffSet] = useState(0)
     
+    const [pagination, setPagination] = useState([1, 2, 3, 4])
 
     const router = useRouter()
     
@@ -42,7 +43,7 @@ const landing = () => {
         getUrls()
     }, [offSet])
 
-    console.log('aca offset: ',offSet)    
+    console.log('aca pagination: ', pagination)    
 
 
     return (
@@ -61,13 +62,23 @@ const landing = () => {
                     <Text style={{color: '#707070'}}>Prev</Text>
                 </TouchableOpacity>}
 
+                {
+                    pagination.map((e, i) => {
+                        return(
+                            <TouchableOpacity key={i} style={styles.buttonPaginationNum}>
+                                <Text style={{color: 'white'}}>{e}</Text>
+                            </TouchableOpacity>
+                        )
+                    })
+                }
+
                 {pages.next !== null ?
                 <TouchableOpacity style={styles.buttonPages} onPress={nextButton}>
                     <Text style={{color: 'white'}}>Next</Text>
                 </TouchableOpacity>
                 : 
                 <TouchableOpacity style={styles.buttonPagesDisable} disabled={true}>
-                    <Text style={{color: '#707070'}}>Prev</Text>
+                    <Text style={{color: '#707070'}}>Next</Text>
                 </TouchableOpacity>}
             </View>
             <ScrollView>
@@ -116,9 +127,11 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     containerButtons: {
-        flex: 1,
-        flexWrap: 'wrap',
-        alignItems: 'center'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        
     },
     buttonPages: {
         alignItems: 'center',
@@ -133,6 +146,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#4f4f4f',
         width: 60, 
         height: 30
+    },
+    buttonPaginationNum: {
+        width: 30, 
+        height: 30,
+        backgroundColor: '#232423',
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center', 
     }
 
 }) 
