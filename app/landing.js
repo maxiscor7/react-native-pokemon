@@ -32,10 +32,35 @@ const landing = () => {
     const prevButton = () => {
         setOffSet(offSet - 20)
         getUrls()
+        pagination.pop()
+        pagination.unshift(pagination[0] - 1)
     }
     const nextButton = () => {
         setOffSet(offSet + 20)
         getUrls()
+        pagination.shift()
+        pagination.push(pagination[pagination.length -1] + 1)
+    }
+
+    const numberPagination = (e, i) => {
+        let number = e * 20 - 20
+        setOffSet(number)
+        if(i > 0){
+            if(i == 2){
+                pagination.shift()
+                pagination.shift()
+                pagination.push(pagination[pagination.length -1]+1,pagination[pagination.length -1]+2)
+                
+            }
+            if(i == 3){
+                pagination.shift()
+                pagination.shift()
+                pagination.shift()
+                pagination.push(pagination[pagination.length -1]+1,pagination[pagination.length -1]+2, pagination[pagination.length -1]+3)
+                
+            }
+        }
+        console.log(number)
     }
 
 
@@ -43,7 +68,7 @@ const landing = () => {
         getUrls()
     }, [offSet])
 
-    console.log('aca pagination: ', pagination)    
+    console.log('aca pagination: ', pagination, 'aca offset: ', pagination[pagination.length -1])    
 
 
     return (
@@ -65,7 +90,10 @@ const landing = () => {
                 {
                     pagination.map((e, i) => {
                         return(
-                            <TouchableOpacity key={i} style={styles.buttonPaginationNum}>
+                            <TouchableOpacity 
+                            key={i} style={styles.buttonPaginationNum}
+                            onPress={() => numberPagination(e, i)}
+                            >
                                 <Text style={{color: 'white'}}>{e}</Text>
                             </TouchableOpacity>
                         )
