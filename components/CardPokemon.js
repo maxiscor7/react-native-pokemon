@@ -18,7 +18,7 @@ useEffect(() => {
 
 
     return(
-        <Link href={`/pokemon?name=${pokemon.name}`} >
+        <Link href={`/pokemon?name=${pokemon.name}`} style={{margin: 10}} >
             {pokemon ? 
             <View style={styles.cardContainer}>
                 <Text>{pokemon.id}</Text>
@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'orange',
         height: 200,
         width: 150,
-        margin: 5,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

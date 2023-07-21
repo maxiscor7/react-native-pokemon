@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity } from "react-native"
+import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native"
 import { useRouter } from "expo-router"
 import { useState, useEffect } from "react"
 import CardPokemon from "../components/CardPokemon"
@@ -24,7 +24,7 @@ const landing = () => {
             .then(res => {
                 setUrls(res.results)
                 setPages({next: res.next, previous: res.previous})
-                console.log(res)
+                
             })
 
     }
@@ -82,12 +82,12 @@ const landing = () => {
                 </TouchableOpacity>}
             </View>
             <ScrollView>
-                <Text style={styles.containerAllPokemon}>
+                <View style={styles.containerAllPokemon}>
                     {urls ? 
                     urls.map(e =>
                     <CardPokemon key={e.name} name={e.name} url={e.url} />
-                    ) : ''}
-                </Text>
+                    ) : <ActivityIndicator size="small" color="grey" />}
+                </View>
             </ScrollView>
 
             <Button onPress={() => router.back()} title='Go back' ></Button>
@@ -121,10 +121,11 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         backgroundColor: 'blue',
+        flexDirection: 'row',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     containerButtons: {
         display: 'flex',
