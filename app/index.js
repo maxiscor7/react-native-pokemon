@@ -1,19 +1,21 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import { Link } from "expo-router";
+
 
 export default function Page() {
 
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello There</Text>
-        <Text style={styles.subtitle}>Welcome to the Pokemon world</Text>
-
-        <Link href="/landing" style={styles.buttom} >
-          Search pokemon
-        </Link>
-      </View>
-    </View>
+    
+      <ImageBackground source={require('../assets/images/pokImg.jpg')} style={styles.container}>
+        <View style={styles.main}>
+          <Image source={require('../assets/images/pokeLog.png')} style={styles.imageLogo} />
+          <Image source={require('../assets/images/pokeBall.png')} style={styles.pokeBall} />
+          <Link href="/landing" style={styles.buttom} >
+            Go
+          </Link>
+        </View>
+      </ImageBackground>
+    
   );
 }
 
@@ -33,30 +35,32 @@ const styles = StyleSheet.create({
     fontSize: 64,
     fontWeight: "bold",
   },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-    alignSelf: 'center',
-    
-  },
+  
   buttom: {
-    /*
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    */
-    width: 130,
+    width: 30,
+    height: 30,
     alignSelf: 'center',
     textAlign: 'center',
-    height: 30,
+    borderRadius: 60,
     textAlignVertical: 'center',
     backgroundColor: 'red',
     color: '#fff',
-    marginTop: 20,
-    borderRadius: 5
-
+    position: 'absolute',
+    left: -9,
+    bottom: 343
   },
-  textButtom: {
-
+  imageLogo: {
+    height: 100, 
+    width: 500,
+    position: 'absolute',
+    top: 70,
+    left: -250
+  },
+  pokeBall:{
+    height: 150,
+    width: 150,
+    position: 'absolute',
+    left: -70
   }
+  
 });

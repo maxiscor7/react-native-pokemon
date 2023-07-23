@@ -60,7 +60,7 @@ const landing = () => {
                 
             }
         }
-        console.log(number)
+        
     }
 
 
@@ -68,8 +68,7 @@ const landing = () => {
         getUrls()
     }, [offSet])
 
-    console.log('aca pagination: ', pagination, 'aca offset: ', pagination[pagination.length -1])    
-
+   
 
     return (
         <View style={styles.container}>
